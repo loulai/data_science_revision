@@ -1,10 +1,11 @@
 library(tidyverse)
 library(lubridate)
-
+library(readr)
+library(dplyr)
 ########################################
 # READ AND TRANSFORM THE DATA
 ########################################
-
+setwd('~/Desktop/programming/ds3/week1')
 # read one month of data
 trips <- read_csv('201402-citibike-tripdata.csv')
 
@@ -16,7 +17,7 @@ names(trips) <- gsub(' ', '_', names(trips))
 
 # recode gender as a factor 0->"Unknown", 1->"Male", 2->"Female"
 trips <- mutate(trips, gender = factor(gender, levels=c(0,1,2), labels = c("Unknown","Male","Female")))
-
+trips <- mutate %>% 
 
 ########################################
 # YOUR SOLUTIONS BELOW
