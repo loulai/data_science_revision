@@ -13,19 +13,29 @@ trips <- read_csv('201402-citibike-tripdata.csv')
 names(trips) <- gsub(' ', '_', names(trips))
 
 # convert dates strings to dates
-# trips <- mutate(trips, starttime = mdy_hms(starttime), stoptime = mdy_hms(stoptime))
+#trips <- mutate(trips, starttime = mdy_hms(starttime), stoptime = mdy_hms(stoptime))
 
 # recode gender as a factor 0->"Unknown", 1->"Male", 2->"Female"
-trips <- mutate(trips, gender = factor(gender, levels=c(0,1,2), labels = c("Unknown","Male","Female")))
-trips <- mutate %>% 
+trips <- mutate(trips, gender = factor(gender, levels=c(0,1,2), labels = c("Unknown", "Male", "Female")))
+View(trips)
+
+# convert birth years to numerics
+trips$birth_year <- as.numeric(trips$birth_year)
 
 ########################################
 # YOUR SOLUTIONS BELOW
 ########################################
 
 # count the number of trips (= rows in the data frame)
+num_trips <- nrow(trips) # 224,736
 
 # find the earliest and latest birth years (see help for max and min to deal with NAs)
+earliest_birth_year <- max(trips$birth_year, na.rm=TRUE) # 20 years old
+latest_birth_year <- min(trips$birth_year, na.rm=TRUE) # 118 years old lol
+
+# find number of people that are the oldest and youngest age
+
+# show the distribution of age. Mean, median, standard deviation
 
 # use filter and grepl to find all trips that either start or end on broadway
 
