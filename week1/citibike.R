@@ -49,3 +49,5 @@ trips <- mutate %>%
 
 # compute the average number of trips taken during each of the 24 hours of the day across the entire month
 # what time(s) of day tend to be peak hour(s)?
+
+
