@@ -34,8 +34,19 @@ earliest_birth_year <- max(trips$birth_year, na.rm=TRUE) # 20 years old
 latest_birth_year <- min(trips$birth_year, na.rm=TRUE) # 118 years old lol
 
 # find number of people that are the oldest and youngest age
+num_youngest <- trips %>% filter(birth_year == earliest_birth_year) %>% count() #251
+num_oldest <- trips %>% filter(birth_year == latest_birth_year) %>% count() #9!
 
-# show the distribution of age. Mean, median, standard deviation
+# show the distribution of age
+trips = mutate(trips, age_in_2017 = 2017 - birth_year)
+hist(trips$age_in_2017)
+
+# find the mean, median of age
+mean_age = mean(trips$age_in_2017, na.rm=TRUE) #41.5
+median_age = median(trips$age_in_2017, na.rm=TRUE) #39
+
+# show the most frequently occuring age
+
 
 # use filter and grepl to find all trips that either start or end on broadway
 
