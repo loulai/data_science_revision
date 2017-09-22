@@ -20,7 +20,9 @@ trips <- mutate(trips, gender = factor(gender, levels=c(0,1,2), labels = c("Unkn
 View(trips)
 
 # convert birth years to numerics
+trips = mutate(trips, age_in_2017 = 2017 - birth_year)
 trips$birth_year <- as.numeric(trips$birth_year)
+
 
 ########################################
 # YOUR SOLUTIONS BELOW
@@ -35,20 +37,31 @@ latest_birth_year <- min(trips$birth_year, na.rm=TRUE) # 118 years old lol
 
 # find number of people that are the oldest and youngest age
 num_youngest <- trips %>% filter(birth_year == earliest_birth_year) %>% count() #251
-num_oldest <- trips %>% filter(birth_year == latest_birth_year) %>% count() #9!
+num_oldest <- trips %>% filter(birth_year == latest_birth_year) count() #9!
 
 # show the distribution of age
-trips = mutate(trips, age_in_2017 = 2017 - birth_year)
 hist(trips$age_in_2017)
 
 # find the mean, median of age
 mean_age = mean(trips$age_in_2017, na.rm=TRUE) #41.5
 median_age = median(trips$age_in_2017, na.rm=TRUE) #39
 
-# show the most frequently occuring age
+# find the average age of males & females
+trips %>% group_by(gender) %>% summarise(avg_age_in_2017_gender = mean(age_in_2017, na.rm=TRUE)) #m=41.5, f=40.5
 
+# show the most frequently occuring age
+trips %>% group_by(age_in_2017) %>% summarise(num=n()) %>% arrange(desc(num)) #32 years old, 9305
+
+# show the ages within one standard deviation of the mean
+std_diev = mySd(trips$age_in_2017) #11.42
+group_one_sd = trips %>% filter(age_in_2017 >= (mean_age - std_diev) & age_in_2017 <= (mean_age + std_diev))
+
+# find the % of people within one standard deviation of the mean
+percent_within_one_sd = (nrow(group_one_sd) * 100 ) / nrow(na.omit(trips))
+# 63.7% Usual is 68%, so pretty good
 
 # use filter and grepl to find all trips that either start or end on broadway
+
 
 # do the same, but find all trips that both start and end on broadway
 

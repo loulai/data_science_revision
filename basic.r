@@ -1,7 +1,12 @@
 #-- my standard deviation
-mysd <- function(nums)
-  sqrt(mean((nums - mean(nums)) ^ 2))
+mySd <- function(nums) {
+  vec <- na.omit(nums)
+  sqrt(mean((vec - mean(vec)) ^ 2))
+}
+
 
 #-- standard deviation (n-1)
-rsd <- function(nums)
-  sqrt(sum((nums - mean(nums)) ^ 2)/(length(nums)-1))
+rsd <- function(nums){
+  vec <- na.omit(nums)
+  sqrt(sum((vec - mean(vec)) ^ 2)/(length(vec)-1))
+}
