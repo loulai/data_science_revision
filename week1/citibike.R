@@ -17,7 +17,6 @@ names(trips) <- gsub(' ', '_', names(trips))
 
 # recode gender as a factor 0->"Unknown", 1->"Male", 2->"Female"
 trips <- mutate(trips, gender = factor(gender, levels=c(0,1,2), labels = c("Unknown", "Male", "Female")))
-View(trips)
 
 # convert birth years to numerics
 trips = mutate(trips, age_in_2017 = 2017 - birth_year)
@@ -37,7 +36,7 @@ latest_birth_year <- min(trips$birth_year, na.rm=TRUE) # 118 years old lol
 
 # find number of people that are the oldest and youngest age
 num_youngest <- trips %>% filter(birth_year == earliest_birth_year) %>% count() #251
-num_oldest <- trips %>% filter(birth_year == latest_birth_year) count() #9!
+num_oldest <- trips %>% filter(birth_year == latest_birth_year) %>% count() #9!
 
 # show the distribution of age
 hist(trips$age_in_2017)
@@ -50,7 +49,7 @@ median_age = median(trips$age_in_2017, na.rm=TRUE) #39
 trips %>% group_by(gender) %>% summarise(avg_age_in_2017_gender = mean(age_in_2017, na.rm=TRUE)) #m=41.5, f=40.5
 
 # show the most frequently occuring age
-trips %>% group_by(age_in_2017) %>% summarise(num=n()) %>% arrange(desc(num)) #32 years old, 9305
+trips %>% group_by(age_in_2017) %>% summarise(num=n()) %>% arrange(desc(num)) %>% head() #32 years old, 9305
 
 # show the ages within one standard deviation of the mean
 std_diev = mySd(trips$age_in_2017) #11.42
@@ -66,13 +65,32 @@ percent_within_one_sd = (nrow(group_one_sd) * 100 ) / nrow(na.omit(trips))
 # do the same, but find all trips that both start and end on broadway
 
 # find all unique station names
+unique(trips$start_station_name)
 
 # count the number of trips by gender
+num_male = nrow(filter(trips, gender == 'Male')) # 176,526
+num_female = nrow(filter(trips, gender == 'Female')) # 41,479
+
+trips %>% group_by(gender) %>% count() # <<<<<<<<<<<< come back
 
 # compute the average trip time by gender
+trips$tripduration <- as.numeric(trips$tripduration)
+males <- subset(trips, gender=='Male')
+females <- subset(trips, gender=='Female')
+avg_tripduration_male = mean(males$tripduration)
+avg_tripduration_female = mean(females$tripduration)
+
 # comment on whether there's a (statistically) significant difference
+## come back
+
+# find the most frequent start station
+trips %>% group_by(start_station_name) %>% summarize(starts=n()) %>% arrange(desc(starts)) # Lafayette St & E 8 St, 2920
+
+# find the most frequent end station
+trips %>% group_by(end_station_name) %>% summarize(ends=n()) %>% arrange(desc(ends)) # 2622
 
 # find the 10 most frequent station-to-station trips
+trips %>% group_by(start_station_name, end_station_id) %>% summarize(this_route_trips = n()) %>% ungroup() %>% arrange(desc(this_route_trips))
 
 # find the top 3 end stations for trips starting from each start station
 
@@ -83,5 +101,13 @@ percent_within_one_sd = (nrow(group_one_sd) * 100 ) / nrow(na.omit(trips))
 
 # compute the average number of trips taken during each of the 24 hours of the day across the entire month
 # what time(s) of day tend to be peak hour(s)?
+
+
+
+
+
+
+
+
 
 
