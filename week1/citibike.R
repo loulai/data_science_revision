@@ -90,9 +90,10 @@ trips %>% group_by(start_station_name) %>% summarize(starts=n()) %>% arrange(des
 trips %>% group_by(end_station_name) %>% summarize(ends=n()) %>% arrange(desc(ends)) # 2622
 
 # find the 10 most frequent station-to-station trips
-trips %>% group_by(start_station_name, end_station_id) %>% summarize(this_route_trips = n()) %>% ungroup() %>% arrange(desc(this_route_trips))
+trips_by_route <- trips %>% group_by(start_station_name, end_station_name) %>% summarize(this_route_trips = n()) %>% ungroup() %>% arrange(desc(this_route_trips))
 
 # find the top 3 end stations for trips starting from each start station
+top_stations_by_start <- trips %>% group_by(start_station_name, end_station_name) %>% summarize(this_route_trips=n()) %>% arrange(desc(this_route_trips))
 
 # find the top 3 most common station-to-station trips by gender
 
