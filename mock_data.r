@@ -16,9 +16,7 @@ create_event_df <- function(start_date, days, students){
   student_id <- numeric(num_rows)
   attendance <- rep('Y', num_rows)
   
-  initial_df <- data.frame(date, student_id, attendance)
-  
-  # DATE vector creation
+  # DATE 
   day(start_date) <- day(start_date) - 1
   for (i in 1:num_rows){
     if(i%%students == 1){
@@ -27,9 +25,15 @@ create_event_df <- function(start_date, days, students){
     date[i] <- start_date
   }
   
-  # lol
-  initial_df <- data.frame(date, student_id, attendance)
-  initial_df
+  # STUDENT_ID 
+  student_id <- rep(c(1:students), days)
+  
+  # ATTENDANCE 
+  attendance <- sample(c('Y', 'N'), num_rows, replace=T)
+  
+  # assembling dataframe
+  final_df <- data.frame(date, student_id, attendance)
+  final_df
 }
 
 event_df2 <- data.frame(date=c('2017-01-08', '2017-01-08', '2017-01-08'), student_id=c(1001, 1002, 1003), attendance=c('Y','Y','N'))
